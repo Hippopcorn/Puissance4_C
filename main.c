@@ -18,6 +18,7 @@ void display();
 void printNbrToken();
 int checkWin(int x);
 int checkVertival(int x, int y);
+int checkHorizontal(int x, int y);
 
 int main() {
     int round = 1;
@@ -77,10 +78,10 @@ void printNbrToken() {
     printf("\n");
 }
 
-int checkWin(int x) {
-    int y = nbrToken[x];
+int checkWin(int x) {    //  x = entree utilisateur -1
+    int y = nbrToken[x]; // y = nbr de jetons en colonne de l'entree utilisateur
 
-    if (checkVertival(x, y)) {
+    if (checkVertival(x, y) || checkHorizontal(x, y)) {
         return 1;
     }
 
@@ -99,4 +100,23 @@ int checkVertival(int x, int y) {
     }
 
     return 1;
+}
+
+int checkHorizontal(int x, int y) { // board[0 a 6][y] = ligne a checker
+    int count = 0;
+    char charTocheck = board[x][y];
+
+    for (int i = 0; i < L_BOARD - 1; i++) {
+        if (board[i][y] == charTocheck) {
+            count++;
+
+            if (count == 4) {
+                return 1;
+            }
+        } else {
+            count = 0;
+        }
+    }
+
+    return 0;
 }

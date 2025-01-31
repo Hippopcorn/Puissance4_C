@@ -19,6 +19,8 @@ void printNbrToken();
 int checkWin(int x);
 int checkVertival(int x, int y);
 int checkHorizontal(int x, int y);
+int checkDiagonalRight(int x, int y);
+int checkDiagonalLeft(int x, int y);
 
 int main() {
     int round = 1;
@@ -53,8 +55,8 @@ int main() {
         }
 
         nbrToken[entreeBoard]++;
+
         round++;
-        // printNbrToken();
     }
 
     return 0;
@@ -81,7 +83,7 @@ void printNbrToken() {
 int checkWin(int x) {    //  x = entree utilisateur -1
     int y = nbrToken[x]; // y = nbr de jetons en colonne de l'entree utilisateur
 
-    if (checkVertival(x, y) || checkHorizontal(x, y)) {
+    if (checkVertival(x, y) || checkHorizontal(x, y) || checkDiagonalRight(x, y) || checkDiagonalLeft(x, y)) {
         return 1;
     }
 
@@ -104,10 +106,10 @@ int checkVertival(int x, int y) {
 
 int checkHorizontal(int x, int y) { // board[0 a 6][y] = ligne a checker
     int count = 0;
-    char charTocheck = board[x][y];
+    char charToCheck = board[x][y];
 
     for (int i = 0; i < L_BOARD - 1; i++) {
-        if (board[i][y] == charTocheck) {
+        if (board[i][y] == charToCheck) {
             count++;
 
             if (count == 4) {
@@ -117,6 +119,54 @@ int checkHorizontal(int x, int y) { // board[0 a 6][y] = ligne a checker
             count = 0;
         }
     }
+
+    return 0;
+}
+
+int checkDiagonalRight(int x, int y) {
+    int count = 0;
+    int ToCheck = 0;
+    char charToCheck = board[x][y];
+
+    if (y <= x) {
+        for (int xToCheck = x - y; xToCheck < L_BOARD; xToCheck++) {
+
+            if (board[xToCheck][ToCheck] == charToCheck) {
+                count++;
+
+                if (count == 4) {
+                    return 1;
+                }
+            } else {
+                count = 0;
+            }
+            ToCheck++;
+        }
+
+    } else {
+        for (int yToCheck = y - x; yToCheck < H_BOARD; yToCheck++) {
+
+            if (board[ToCheck][yToCheck] == charToCheck) {
+                count++;
+
+                if (count == 4) {
+                    return 1;
+                }
+            } else {
+                count = 0;
+            }
+            ToCheck++;
+        }
+    }
+
+    return 0;
+}
+
+int checkDiagonalLeft(int x, int y) {
+    int count = 0;
+    int ToCheck = 0;
+    char charToCheck = board[x][y];
+    printf("x = %d, y = %d, y+x = %d\n", x, y, y + x);
 
     return 0;
 }

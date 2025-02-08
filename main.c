@@ -129,8 +129,7 @@ int checkDiagonalRight(int x, int y) {
     char charToCheck = board[x][y];
 
     if (y <= x) {
-        for (int xToCheck = x - y; xToCheck < L_BOARD; xToCheck++) {
-
+        for (int xToCheck = x - y; xToCheck < L_BOARD && ToCheck < H_BOARD; xToCheck++) {
             if (board[xToCheck][ToCheck] == charToCheck) {
                 count++;
 
@@ -144,8 +143,7 @@ int checkDiagonalRight(int x, int y) {
         }
 
     } else {
-        for (int yToCheck = y - x; yToCheck < H_BOARD; yToCheck++) {
-
+        for (int yToCheck = y - x; yToCheck < H_BOARD && ToCheck < L_BOARD; yToCheck++) {
             if (board[ToCheck][yToCheck] == charToCheck) {
                 count++;
 
@@ -162,11 +160,44 @@ int checkDiagonalRight(int x, int y) {
     return 0;
 }
 
+//  x = entree utilisateur -1
+// y = nbr de jetons en colonne de l'entree utilisateur
+
 int checkDiagonalLeft(int x, int y) {
     int count = 0;
     int ToCheck = 0;
+
     char charToCheck = board[x][y];
-    printf("x = %d, y = %d, y+x = %d\n", x, y, y + x);
+
+    if (y <= 6 - x) {
+        for (int xToCheck = x + y; xToCheck >= 0 && ToCheck <= H_BOARD; xToCheck--) {
+            if (board[xToCheck][ToCheck] == charToCheck) {
+                count++;
+
+                if (count == 4) {
+                    return 1;
+                }
+            } else {
+                count = 0;
+            }
+            ToCheck++;
+        }
+    } else {
+        ToCheck = 6;
+
+        for (int yToCheck = y - (6 - x); yToCheck < H_BOARD && ToCheck >= 0; yToCheck++) {
+            if (board[ToCheck][yToCheck] == charToCheck) {
+                count++;
+
+                if (count == 4) {
+                    return 1;
+                }
+            } else {
+                count = 0;
+            }
+            ToCheck--;
+        }
+    }
 
     return 0;
 }
